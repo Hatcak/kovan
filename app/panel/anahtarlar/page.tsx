@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { connection } from "next/server";
 import { CreateKeyForm } from "@/components/create-key-form";
 import { btn, card, Pill } from "@/components/ui";
+import { gateEnabled } from "@/lib/admin";
 import { ws } from "@/lib/store";
 import { revokeKeyAction } from "../actions";
 
@@ -19,6 +20,13 @@ export default async function Keys() {
         Her ajana ayrı anahtar verin; biri sızarsa sadece onu iptal edersiniz. Anahtarın kendisi saklanmaz, yalnızca
         özeti tutulur.
       </p>
+
+      {gateEnabled() && (
+        <p className="mt-4 max-w-[65ch] rounded-sm border border-accent/40 bg-accent-soft px-4 py-3 text-sm">
+          <strong>Ana anahtarınız</strong> sunucuda <code className="tnum">KOVAN_ADMIN_KEY</code> olarak gizli
+          duruyor ve API&apos;de her zaman çalışır. Kodda ya da GitHub&apos;da yer almaz.
+        </p>
+      )}
 
       <section className={`${card} mt-6 p-5`}>
         <h2 className="sr-only">Yeni anahtar</h2>

@@ -33,6 +33,9 @@ curl http://localhost:3000/api/v1/call \
 
 ## Gizli bilgiler
 
+- **Ana anahtar (`KOVAN_ADMIN_KEY`):** Yalnızca ortam değişkeninde (Vercel'in şifreli ortam değişkenleri ya da
+  `.env.local`) durur. Tanımlıysa panel bu anahtarla girişe kilitlenir ve API'de `Bearer` anahtarı olarak çalışır.
+  Değiştirirseniz tüm oturumlar kapanır.
 - Sağlayıcı anahtarları (örn. `GITHUB_TOKEN`) yalnızca sunucuda, `.env.local` içinde durur. `.env.local`
   git'e girmez. Bunlara asla `NEXT_PUBLIC_` öneki vermeyin.
 - Kovan anahtarları bir kez gösterilir; sunucuda sadece SHA-256 özeti saklanır.

@@ -32,6 +32,7 @@ export type CallLog = {
 };
 
 type Workspace = {
+  admin: ApiKey;
   balance: number;
   startingBalance: number;
   keys: ApiKey[];
@@ -51,7 +52,17 @@ const g = globalThis as unknown as { __kovan?: Workspace };
 export function ws(): Workspace {
   if (!g.__kovan) {
     const start = startingCredits();
-    g.__kovan = { balance: start, startingBalance: start, keys: [], log: [], hits: new Map() };
+    const admin: ApiKey = {
+      id: "admin",
+      name: "Ana anahtar",
+      hash: "",
+      preview: "KOVAN_ADMIN_KEY",
+      createdAt: Date.now(),
+      lastUsedAt: null,
+      calls: 0,
+      revoked: false,
+    };
+    g.__kovan = { admin, balance: start, startingBalance: start, keys: [], log: [], hits: new Map() };
   }
   return g.__kovan;
 }
