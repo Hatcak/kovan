@@ -16,10 +16,15 @@ async function requireAdmin() {
 export type LoginState = { error?: string };
 
 export async function loginAction(_prev: LoginState, formData: FormData): Promise<LoginState> {
-  const secret = String(formData.get("key") ?? "").trim();
+  // Accept the key pasted straight from .env.local: "KOVAN_ADMIN_KEY=…", "=…" or quoted
+  const secret = String(formData.get("key") ?? "")
+    .trim()
+    .replace(/^(KOVAN_ADMIN_KEY)?\s*=\s*/, "")
+    .replace(/^["']|["']$/g, "")
+    .trim();
   const token = sessionToken();
   if (!token) redirect("/panel");
-  if (!secret || !isAdminSecret(secret)) return { error: "Anahtar hatalı." };
+  if (!secret || !isAdminSecret(secret)) return { error: "Anahtar hatalı. kv_admin_ ile başlayan değerin tamamını yapıştırın." };
   (await cookies()).set(SESSION_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
